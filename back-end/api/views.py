@@ -60,7 +60,7 @@ def getNote(request, id):
     # print('*******************')
 
     # id = request.id
-    notes = Note.objects.filter(pk=id)
+    notes = Note.objects.filter(pk=id).first()
     # print(notes)
-    serializedNotes = NoteSerializer(notes, many=True)
+    serializedNotes = NoteSerializer(notes, many=False)
     return Response(serializedNotes.data)
