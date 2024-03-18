@@ -51,3 +51,16 @@ def getNotes(request):
     notes = Note.objects.all()
     serializedNotes = NoteSerializer(notes, many=True)
     return Response(serializedNotes.data)
+
+
+@api_view(['GET'])
+def getNote(request, id):
+    # print('*******************')
+    # print(request.kwargs['id'])
+    # print('*******************')
+
+    # id = request.id
+    notes = Note.objects.filter(pk=id)
+    # print(notes)
+    serializedNotes = NoteSerializer(notes, many=True)
+    return Response(serializedNotes.data)
