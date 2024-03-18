@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 function ListItem({ item }) {
   return (
     <Link to={`${item.id}`}>
-      <h3>{item.body}</h3>
+      <div className="notes-list-item">
+        <h3>{item.body}</h3>
+      </div>
     </Link>
   );
 }

@@ -9,11 +9,15 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route Component={NoteLisPage} path="/notes" />
-        <Route Component={NotePage} path="/notes/:id" />
-      </Routes>
+      <div className="container dark">
+        <div className="app">
+          <Header />
+          <Routes>
+            <Route Component={NoteLisPage} path="/notes" />
+            <Route Component={NotePage} path="/notes/:id" />
+          </Routes>
+        </div>
+      </div>
     </BrowserRouter>
   );
 }
