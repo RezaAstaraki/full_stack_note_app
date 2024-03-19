@@ -77,3 +77,15 @@ def updateNote(request,id):
         serializer.save()
     # print('*******************')
     return Response(serializer.data) 
+
+@api_view(['POST'])
+def addNote(request):
+    data= request.data
+    print('*******************')
+    print(data)
+    print('*******************')
+    if data:
+        serializer = NoteSerializer(data=data)
+        if serializer.is_valid() : serializer.save()
+        return Response(serializer.data)
+    return Response()

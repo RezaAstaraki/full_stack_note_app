@@ -9,4 +9,8 @@ class Note(models.Model):
 
 
     def __str__(self):
-        return f'{self.body[:50]}'
+        try:
+            return f'{self.body[:50]}---- id:{self.id} --- updated: {self.updated} --- created: {self.created}'
+        # {self.body[:50]} id:
+        except:
+            return 'can not create __str__'
