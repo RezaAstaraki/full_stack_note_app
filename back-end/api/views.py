@@ -48,7 +48,7 @@ def getRouts(request):
 
 @api_view(['GET'])
 def getNotes(request):
-    notes = Note.objects.all()
+    notes = Note.objects.all().order_by('-updated')
     serializedNotes = NoteSerializer(notes, many=True)
     return Response(serializedNotes.data)
 
@@ -59,9 +59,7 @@ def getNote(request, id):
     # print(request.kwargs['id'])
     # print('*******************')
 
-    # id = request.id
-    notes = Note.objects.filter(pk=id).first()
-    # print(notes)
+    notes = Note.objects.get(pk=id)
     serializedNotes = NoteSerializer(notes, many=False)
     return Response(serializedNotes.data)
 
@@ -80,6 +78,7 @@ def updateNote(request,id):
 
 @api_view(['POST'])
 def addNote(request):
+    print('**************>>>>>>>>>>POST')
     data= request.data
     print('*******************')
     print(data)

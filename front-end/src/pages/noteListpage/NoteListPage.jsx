@@ -1,3 +1,4 @@
+import AddNoteButton from "../../components/add_btn/AddNoteButton";
 import ListItem from "../../components/listItem/ListItem";
 import "./noteListPage.scss";
 
@@ -24,10 +25,11 @@ function NoteListPage() {
         <h2 className="notes-title">&#9782; Notes</h2>
         <p className="notes-count">{notes.length}</p>
       </div>
-      <div className="notes-list">
+      <div className="notes-list" style={{ position: "relative" }}>
         {notes.map((note) => (
           <ListItem item={note} key={note.id} />
         ))}
+        <AddNoteButton />
       </div>
     </div>
   );

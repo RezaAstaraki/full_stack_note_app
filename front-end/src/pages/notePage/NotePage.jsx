@@ -4,8 +4,13 @@ import { useParams, useNavigate } from "react-router-dom";
 
 function NotePage() {
   const [note, setNote] = useState(null);
+  let requestAddress;
+  let requestMethod;
 
   const getNote = (id) => {
+    if (id === "new") {
+      return;
+    }
     fetch(`http://127.0.0.1:8000/api/notes/${id}`)
       .then((response) => {
         if (response.ok) {
@@ -24,7 +29,6 @@ function NotePage() {
   const navigate = useNavigate();
 
   let id = useParams().id;
-  const param = useParams();
 
   useEffect(() => {
     getNote(id);
@@ -35,18 +39,24 @@ function NotePage() {
     // console.log("useParams(", param);
   });
 
-  const updateNote = async (id) => {
+  const updateNote = async () => {
     try {
-      const response = await fetch(
-        `http://127.0.0.1:8000/api/notes/${id}/update`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(note),
-        }
-      );
+      if (id === "new") {
+        requestAddress = "http://127.0.0.1:8000/api/notes/add";
+        requestMethod = "POST";
+        console.log("requestMethod", requestMethod);
+      } else {
+        requestAddress = `http://127.0.0.1:8000/api/notes/${id}/update`;
+        requestMethod = "PUT";
+      }
+
+      const response = await fetch(requestAddress, {
+        method: requestMethod,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(note),
+      });
 
       if (!response.ok) {
         throw new Error("Failed to update note");
@@ -56,8 +66,8 @@ function NotePage() {
     }
   };
 
-  const updateHandler = async () => {
-    await updateNote(id);
+  const backButtonHandler = async () => {
+    await updateNote();
     navigate("/");
   };
 
@@ -66,7 +76,7 @@ function NotePage() {
       <div className="note-header">
         <h3 className="note-header">
           <svg
-            onClick={() => updateHandler()}
+            onClick={() => backButtonHandler()}
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -85,7 +95,6 @@ function NotePage() {
           setNote((prev) => ({ ...prev, body: e.target.value }));
         }}
       ></textarea>
-      <button onClick={() => updateHandler()}>update</button>
     </div>
   );
 }
