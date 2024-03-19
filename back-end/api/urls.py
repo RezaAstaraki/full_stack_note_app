@@ -5,4 +5,5 @@ urlpatterns = [
     path('', views.getRouts, name='routs'),
     path('notes/', views.getNotes, name='notes'),
     path('notes/<str:id>/', views.getNote, name='note'),
+    path('notes/<str:id>/update', views.updateNote, name='note-update'),
 ]

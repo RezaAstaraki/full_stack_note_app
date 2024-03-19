@@ -64,3 +64,16 @@ def getNote(request, id):
     # print(notes)
     serializedNotes = NoteSerializer(notes, many=False)
     return Response(serializedNotes.data)
+
+@api_view(['PUT'])
+def updateNote(request,id):
+    data = request.data
+    note = Note.objects.get(id=id)
+    # print('*******************')
+    # print(data)
+    serializer =  NoteSerializer(instance=note,data=data,many=False)
+    print(serializer.is_valid())
+    if serializer.is_valid():
+        serializer.save()
+    # print('*******************')
+    return Response(serializer.data) 

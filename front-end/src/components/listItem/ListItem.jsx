@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function ListItem({ item }) {
   return (
-    <Link to={`${item.id}`}>
+    <Link to={`/notes/${item.id}`}>
       <div className="notes-list-item">
         <h3>{item.body}</h3>
       </div>

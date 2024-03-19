@@ -13,7 +13,7 @@ function App() {
         <div className="app">
           <Header />
           <Routes>
-            <Route Component={NoteLisPage} path="/notes" />
+            <Route Component={NoteLisPage} path="/" />
             <Route Component={NotePage} path="/notes/:id" />
           </Routes>
         </div>
