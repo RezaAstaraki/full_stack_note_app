@@ -35,7 +35,7 @@ function NotePage() {
   }, [id]);
 
   useEffect(() => {
-    // console.log("note", note);
+    console.log("note", note);
     // console.log("useParams(", param);
   });
 
@@ -66,8 +66,22 @@ function NotePage() {
     }
   };
 
+  const deleteNote = async () => {
+    response = await fetch(`http://127.0.0.1:8000/api/notes/${id}/delete`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
   const backButtonHandler = async () => {
-    await updateNote();
+    if (id === "new" && note.body != "") {
+      await updateNote();
+    } else if (id !== "new" && note.body == "") {
+      console.log("delete Triggered");
+      await deleteNote();
+    }
     navigate("/");
   };
 
@@ -87,7 +101,12 @@ function NotePage() {
             <path d="M11 16l13-13v-3l-16 16 16 16v-3l-13-13z"></path>
           </svg>
         </h3>
-        <div className="save-note-btn">{id === "new" ? "save" : "Delete"}</div>
+        <div
+          onClick={() => deleteSaveButtonHandler()}
+          className="save-note-btn"
+        >
+          {id === "new" ? "save" : "Delete"}
+        </div>
       </div>
 
       <textarea
