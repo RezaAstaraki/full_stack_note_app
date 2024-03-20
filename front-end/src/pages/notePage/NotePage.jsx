@@ -35,7 +35,6 @@ function NotePage() {
   }, [id]);
 
   useEffect(() => {
-    console.log("note", note);
     // console.log("useParams(", param);
   });
 
@@ -44,7 +43,6 @@ function NotePage() {
       if (id === "new") {
         requestAddress = "http://127.0.0.1:8000/api/notes/add";
         requestMethod = "POST";
-        console.log("requestMethod", requestMethod);
       } else {
         requestAddress = `http://127.0.0.1:8000/api/notes/${id}/update`;
         requestMethod = "PUT";
@@ -87,13 +85,10 @@ function NotePage() {
 
   const deleteSaveButtonHandler = async () => {
     if (id !== "new" && note.body == "") {
-      console.log("delete Triggered");
       await deleteNote();
     } else if (id !== "new" && note.body != "") {
-      console.log('id !== "new" && note.body != ""');
       await deleteNote();
     } else if (id === "new" && note.body != "") {
-      console.log('id === "new" && note.body != ""');
       await updateNote();
     }
     navigate("/");
@@ -101,11 +96,11 @@ function NotePage() {
 
   const backButtonHandler = async () => {
     if (id === "new" && note.body != "") {
-      console.log('id === "new" && note.body != ""');
       await updateNote();
     } else if (id !== "new" && note.body == "") {
-      console.log("delete Triggered");
       await deleteNote();
+    } else if (id !== "new" && note.body != "") {
+      await updateNote();
     }
     navigate("/");
   };
