@@ -4,6 +4,7 @@ from .models import Note
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import NoteSerializer
+import rest_framework.status as status
 
 # Create your views here.
 
@@ -63,28 +64,41 @@ def getNote(request, id):
     serializedNotes = NoteSerializer(notes, many=False)
     return Response(serializedNotes.data)
 
+
 @api_view(['PUT'])
-def updateNote(request,id):
+def updateNote(request, id):
     data = request.data
     note = Note.objects.get(id=id)
     # print('*******************')
     # print(data)
-    serializer =  NoteSerializer(instance=note,data=data,many=False)
+    serializer = NoteSerializer(instance=note, data=data, many=False)
     print(serializer.is_valid())
     if serializer.is_valid():
         serializer.save()
     # print('*******************')
-    return Response(serializer.data) 
+    return Response(serializer.data)
+
 
 @api_view(['POST'])
 def addNote(request):
     print('**************>>>>>>>>>>POST')
-    data= request.data
+    data = request.data
     print('*******************')
     print(data)
     print('*******************')
     if data:
         serializer = NoteSerializer(data=data)
-        if serializer.is_valid() : serializer.save()
+        if serializer.is_valid():
+            serializer.save()
         return Response(serializer.data)
     return Response()
+
+
+@api_view(['DELETE'])
+def deleteView(request, id):
+    note = Note.objects.get(pk=id)
+    if note:
+        note.delete()
+        return Response('note with id {id} was deleted', status=status.HTTP_202_ACCEPTED)
+    else:
+        return Response('can not find note', status=status.HTTP_400_BAD_REQUEST)
