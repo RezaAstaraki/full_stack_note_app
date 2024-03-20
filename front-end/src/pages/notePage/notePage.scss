@@ -1,2 +1,14 @@
 .notePage {
+  .save-note-btn {
+    background-color: var(--color-main);
+    color: white;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 5px;
+    width: 70px;
+    text-align: center;
+    letter-spacing: 2px;
+    cursor: pointer;
+    user-select: none;
+  }
 }

@@ -72,7 +72,7 @@ function NotePage() {
   };
 
   return (
-    <div className="note">
+    <div className="note notePage">
       <div className="note-header">
         <h3 className="note-header">
           <svg
@@ -87,6 +87,7 @@ function NotePage() {
             <path d="M11 16l13-13v-3l-16 16 16 16v-3l-13-13z"></path>
           </svg>
         </h3>
+        <div className="save-note-btn">{id === "new" ? "save" : "Delete"}</div>
       </div>
 
       <textarea
