@@ -3,7 +3,7 @@ import "./notePage.scss";
 import { useParams, useNavigate } from "react-router-dom";
 
 function NotePage() {
-  const [note, setNote] = useState(null);
+  const [note, setNote] = useState({ body: "" });
   let requestAddress;
   let requestMethod;
 
@@ -67,16 +67,41 @@ function NotePage() {
   };
 
   const deleteNote = async () => {
-    response = await fetch(`http://127.0.0.1:8000/api/notes/${id}/delete`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/notes/${id}/delete`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("delete failed");
+      }
+    } catch (error) {
+      console.error("delete failed");
+    }
+  };
+
+  const deleteSaveButtonHandler = async () => {
+    if (id !== "new" && note.body == "") {
+      console.log("delete Triggered");
+      await deleteNote();
+    } else if (id !== "new" && note.body != "") {
+      console.log('id !== "new" && note.body != ""');
+      await deleteNote();
+    } else if (id === "new" && note.body != "") {
+      console.log('id === "new" && note.body != ""');
+      await updateNote();
+    }
+    navigate("/");
   };
 
   const backButtonHandler = async () => {
     if (id === "new" && note.body != "") {
+      console.log('id === "new" && note.body != ""');
       await updateNote();
     } else if (id !== "new" && note.body == "") {
       console.log("delete Triggered");
@@ -110,7 +135,7 @@ function NotePage() {
       </div>
 
       <textarea
-        defaultValue={note?.body}
+        value={note?.body}
         onChange={(e) => {
           setNote((prev) => ({ ...prev, body: e.target.value }));
         }}
